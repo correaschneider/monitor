@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  monitor:
+    image: node:latest
+    working_dir: /monitor
+    volumes:
+      - monitor_node_modules:/monitor/node_modules
+      - ./src:/monitor
+    ports:
+      - 9090:9090
+    command: ["node", "server.js"]
+
+volumes:
+  monitor_node_modules:
