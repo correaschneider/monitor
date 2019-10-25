@@ -1,3 +1,5 @@
 result.json
+log.json
 src/environments/*
+src/modules/*
 node_modules
