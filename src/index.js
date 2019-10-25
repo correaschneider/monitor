@@ -16,13 +16,17 @@ const start = async () => {
     
     const monitors = require('./modules')
 
-    runners.map(runner => {
-        if (runner.action == 'runMonitors') {
-            monitors.runMonitors(runner.process)
-        } else if (runner.action == 'runNotifiers') {
-            monitors.runNotifiers(runner.process)
-        }
-    })
+    if (runners.length > 0)
+        runners.map(runner => {
+            if (runner.action == 'runMonitors') {
+                monitors.runMonitors(runner.process)
+            } else if (runner.action == 'runNotifiers') {
+                monitors.runNotifiers(runner.process)
+            }
+        })
+    else
+        console.log('Parâmetro não encontrado')
+        
 }
 
 start()

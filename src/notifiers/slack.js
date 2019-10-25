@@ -2,7 +2,7 @@ class Slack {
     constructor(moduleNotifiers) {
         this.moduleNotifiers = moduleNotifiers
     }
-
+    
     process () {
         let slacks = {}
 
@@ -15,7 +15,7 @@ class Slack {
                     slacks[group] = {
                         slack: require('slack-notify')(moduleNotifier.envs.notifiers.slack.web_hook),
                         text: 'Monitoramento',
-                        attachments: [moduleNotifier.toSlack()]
+                        attachments: Array.isArray(moduleNotifier.toSlack()) ? moduleNotifier.toSlack() : [moduleNotifier.toSlack()]
                     }
                 }
             }
@@ -29,8 +29,9 @@ class Slack {
         for (let slackMessageID in slacks) {
             let {slack, ...message} = slacks[slackMessageID]
 
-            if (slacks[slackMessageID].attachments.length > 0)
+            if (slacks[slackMessageID].attachments.length > 0) {
                 slack.success(message)
+            }
         }
     }
 }

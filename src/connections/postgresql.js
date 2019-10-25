@@ -1,24 +1,23 @@
-class Postgress {
-    constructor (env) {
+class Postgresql {
+    constructor (config) {
         const { Client } = require('pg')
         
-        env.statement_timeout = 300000
+        config.statement_timeout = 1800000
 
-        this.client = new Client(env)
+        this.client = new Client(config)
     }
     
     async query (query) {
         await this.client.connect()
         
         await this.client.query('set random_page_cost = 1.1')
-        await this.client.query("set work_mem = '240MB'")
+        await this.client.query("set work_mem = '16MB'")
 
-        let { rows } = await this.client.query(query)
-        
-        await this.client.end()
-        
-        return rows
+        return await this.client.query(query)
+            .then(res => res.rows)
+            .catch(err => { throw new Error(err.stack) })
+            .finally(() => this.client.end())
     }
 }
 
-module.exports = Postgress
+module.exports = Postgresql

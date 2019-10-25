@@ -8,7 +8,7 @@ app.get('/:file/:module', (req, res, next) => {
     if (fs.existsSync(`./modules/${req.params.module}/${req.params.file}.sql`)) {
         let query = fs.readFileSync(`./modules/${req.params.module}/${req.params.file}.sql`).toString()
         
-        res.send(query.replace(/\n/g,"<br>").replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;').replace(/\s/g, '&nbsp;'))
+        res.send(`<pre style="tab-size: 4">${query}</pre>`)
     } else
         res.send('Arquivo não encontrado')
 })
