@@ -1,11 +1,12 @@
-module.exports = (envs) => {
-    const {client, ...connection} = envs
+const fs = require('fs')
 
-    switch (client) {
-        case 'postgresql':
-                const Client = require(`./${client}`)
-                
-                return new Client(connection)
-            break;
+module.exports = (envs) => {
+    let {client, ...connection} = envs
+    let file = `./${client}`
+
+    if (fs.existsSync(file)) {
+        const Client = require(file)
+
+        return new Client(connection)
     }
 }
